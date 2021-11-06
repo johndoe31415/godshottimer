@@ -84,5 +84,8 @@
 	<portpin name="PC3" template="digswitchinput">
 		<description value="SwitchExternal" />
 	</portpin>
+	<portpin name="PD3" template="digio">
+		<description value="Buzzer" />
+	</portpin>
 
 </HAL>

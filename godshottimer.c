@@ -36,6 +36,7 @@
 #define STOPWATCH_LOWEST_VALUE		-999
 #define SEGMENT_DOT					0x80
 #define BUTTON_THRESHOLD			25
+#define BUZZER_DURATION_2MS			25		/* 50ms beep */
 
 enum modus_t {
 	MODE_STOPWATCH_STOPPED = 0,
@@ -53,6 +54,7 @@ static volatile uint8_t button_outer_ctr, button_inner_ctr;
 static volatile bool button_outer_pressed, button_inner_pressed;
 static volatile uint8_t hours, minutes;
 static volatile uint16_t hundreds;
+static volatile uint8_t buzzer_off_threshold;
 
 static void all_segments_off(void) {
 	SegmentA_SetInactive();
@@ -222,6 +224,17 @@ static void erase_display(volatile char *display_text) {
 	memset((char*)display_text, 0, 4);
 }
 
+static void buzzer_on(uint8_t ocr) {
+	OCR2A = ocr;
+	TCCR2A = _BV(WGM21) | _BV(COM2B0) | _BV(COM2A0);
+	Buzzer_ModeOutput();
+}
+
+static void buzzer_off(void) {
+	TCCR2A = 0;
+	Buzzer_ModeInput();
+}
+
 ISR(TIMER0_OVF_vect) {
 	volatile char *display_text = get_active_display();
 	all_digits_off();
@@ -256,6 +269,11 @@ ISR(TIMER0_OVF_vect) {
 	} else {
 		button_inner_ctr = 0;
 	}
+
+	buzzer_off_threshold++;
+	if (buzzer_off_threshold == BUZZER_DURATION_2MS) {
+		buzzer_off();
+	}
 }
 
 ISR(TIMER1_OVF_vect) {
@@ -263,6 +281,10 @@ ISR(TIMER1_OVF_vect) {
 	if (current_mode == MODE_STOPWATCH_RUNNING) {
 		if (stopwatch_value > STOPWATCH_LOWEST_VALUE) {
 			stopwatch_value--;
+			if (stopwatch_value == 0) {
+				buzzer_on(200);
+				buzzer_off_threshold = 0;
+			}
 		} else {
 			current_mode = MODE_STOPWATCH_STOPPED;
 		}
@@ -299,6 +321,9 @@ int main(void) {
 	TCNT1 = 65536 - 3125;		 /* 100ms */
 	TCCR1B = _BV(CS12);
 	TIMSK1 = _BV(TOIE1);
+
+	/* Set Timer2 to connect to buzzer via OC2B, CTC Mode (mode 2), CK/8 */
+	TCCR2B |= _BV(CS21);
 
 	/* Enable IRQs */
 	sei();

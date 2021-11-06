@@ -1,7 +1,7 @@
 /* Automatically generated HAL from hal.xml */
 /* NEVER EDIT MANUALLY */
 
-/* Generated on: 2021-11-06 21:40:21 */
+/* Generated on: 2021-11-06 22:06:28 */
 
 #ifndef __HAL_H__
 #define __HAL_H__
@@ -307,6 +307,33 @@
 #define SwitchExternal_IsActive()                (SwitchExternal_Get() == 0)
 #define SwitchExternal_Init()                    { SwitchExternal_SetPullupActive(); SwitchExternal_ModeInput(); }
 
+/* Buzzer -> PD3 (Input/Output, Initially Input, Initially Pullup Off) */
+#define Buzzer_BIT                               3
+#define Buzzer_PIN                               PIND
+#define Buzzer_PORT                              PORTD
+#define Buzzer_DDR                               DDRD
+#define Buzzer_SetPullupActive()                 Buzzer_PORT |= _BV(Buzzer_BIT)
+#define Buzzer_SetPullupInactive()               Buzzer_PORT &= ~_BV(Buzzer_BIT)
+#define Buzzer_ModeInput()                       Buzzer_DDR &= ~_BV(Buzzer_BIT)
+#define Buzzer_IsInput()                         ((Buzzer_DDR & _BV(Buzzer_BIT)) == 0)
+#define Buzzer_Get()                             (Buzzer_PIN & _BV(Buzzer_BIT))
+#define Buzzer_GetBit()                          (Buzzer_Get() >> Buzzer_BIT)
+#define Buzzer_ModeOutput()                      Buzzer_DDR |= _BV(Buzzer_BIT)
+#define Buzzer_IsOutput()                        ((Buzzer_DDR & _BV(Buzzer_BIT)) != 0)
+#define Buzzer_SetHIGH()                         Buzzer_PORT |= _BV(Buzzer_BIT)
+#define Buzzer_SetLOW()                          Buzzer_PORT &= ~_BV(Buzzer_BIT)
+#define Buzzer_Get()                             (Buzzer_PIN & _BV(Buzzer_BIT))
+#define Buzzer_SetInactive()                     Buzzer_SetLOW()
+#define Buzzer_SetActive()                       Buzzer_SetHIGH()
+#define Buzzer_Toggle()                          Buzzer_PORT ^= _BV(Buzzer_BIT)
+#define Buzzer_SetConditional(condition)         if (condition) Buzzer_SetActive(); else Buzzer_SetInactive()
+#define Buzzer_SetConditionalToggle(conditionon, conditionoff, conditiontoggle) if (conditionon) { Buzzer_SetActive(); } else if (conditionoff) { Buzzer_SetInactive(); } else if (conditiontoggle) { Buzzer_Toggle(); }
+#define Buzzer_Pulse()                           { Buzzer_SetActive(); Buzzer_SetInactive(); }
+#define Buzzer_PulseNop()                        { Buzzer_SetActive(); nop(); Buzzer_SetInactive(); }
+#define Buzzer_IsInactive()                      (Buzzer_Get() == 0)
+#define Buzzer_IsActive()                        (Buzzer_Get() != 0)
+#define Buzzer_Init()                            { Buzzer_SetPullupInactive(); Buzzer_ModeInput(); }
+
 #define initHAL() {\
 		Digit4_Init();\
 		SegmentD_Init();\
@@ -323,6 +350,7 @@
 		SwitchOuter_Init();\
 		SwitchInner_Init();\
 		SwitchExternal_Init();\
+		Buzzer_Init();\
 }
 
 #endif
