@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<HAL>
+	<templates>
+		<template name="led">
+			<pin type="output" initialvalue="inactive" />
+			<activelow />
+		</template>
+
+		<template name="relais">
+			<pin type="output" initialvalue="inactive" />
+		</template>
+
+		<template name="diginput">
+			<pin type="input" initialpullup="active" />
+		</template>
+
+		<template name="diginputinv">
+			<pin type="input" initialpullup="active" />
+			<activelow />
+		</template>
+
+		<template name="digswitchinput">
+			<pin type="input" initialpullup="active" />
+			<activelow />
+		</template>
+
+		<template name="digoutput">
+			<pin type="output" initialvalue="inactive" />
+		</template>
+
+		<template name="digoutputinv">
+			<pin type="output" initialvalue="inactive" />
+			<activelow />
+		</template>
+
+		<template name="digio">
+			<pin type="io" initialstate="input" initialpullup="inactive" />
+		</template>
+	</templates>
+
+
+	<portpin name="PD0" template="digoutput">
+		<description value="Digit4" />
+	</portpin>
+	<portpin name="PD1" template="digoutputinv">
+		<description value="SegmentD" />
+	</portpin>
+	<portpin name="PD2" template="digoutputinv">
+		<description value="SegmentC" />
+	</portpin>
+	<portpin name="PC1" template="digoutput">
+		<description value="Digit3" />
+	</portpin>
+	<portpin name="PD4" template="digoutput">
+		<description value="Digit2" />
+	</portpin>
+	<portpin name="PD7" template="digoutput">
+		<description value="Digit1" />
+	</portpin>
+	<portpin name="PB0" template="digoutputinv">
+		<description value="SegmentE" />
+	</portpin>
+	<portpin name="PD6" template="digoutputinv">
+		<description value="SegmentG" />
+	</portpin>
+	<portpin name="PD5" template="digoutputinv">
+		<description value="SegmentF" />
+	</portpin>
+	<portpin name="PB1" template="digoutputinv">
+		<description value="SegmentDot" />
+	</portpin>
+	<portpin name="PB2" template="digoutputinv">
+		<description value="SegmentA" />
+	</portpin>
+	<portpin name="PC0" template="digoutputinv">
+		<description value="SegmentB" />
+	</portpin>
+	<portpin name="PC5" template="digswitchinput">
+		<description value="SwitchOuter" />
+	</portpin>
+	<portpin name="PC4" template="digswitchinput">
+		<description value="SwitchInner" />
+	</portpin>
+	<portpin name="PC3" template="digswitchinput">
+		<description value="SwitchExternal" />
+	</portpin>
+
+</HAL>
