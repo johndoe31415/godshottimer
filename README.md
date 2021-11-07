@@ -3,6 +3,23 @@ This is a toy project my sister and I developed together which times extraction
 time of espresso. It's essentially a manually multiplexed 7-segment display
 which acts as a clock and 25-second timer.
 
+## Pictures
+Here's a picture of the timer when it is off
+
+![Timer when it's off](https://raw.githubusercontent.com/johndoe31415/godshottimer/master/docs/gst01_front_off.jpg)
+
+This is the backside. It uses 0805 SMD components:
+
+![Backside](https://raw.githubusercontent.com/johndoe31415/godshottimer/master/docs/gst02_back_off.jpg)
+
+In clock mode:
+
+![Clock mode](https://raw.githubusercontent.com/johndoe31415/godshottimer/master/docs/gst03_clock.jpg)
+
+And in timer mode:
+
+![Timer mode](https://raw.githubusercontent.com/johndoe31415/godshottimer/master/docs/gst04_timer.jpg)
+
 ## Usage
 After reset the timer clock is in "set time" mode. Pressing the inner button
 sets hours, the outer button sets minutes.
